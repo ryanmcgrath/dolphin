@@ -534,6 +534,12 @@ if(APPLE)
       POST_BUILD COMMAND
       /usr/bin/codesign -f -s "${MACOS_CODE_SIGNING_IDENTITY}" --deep --options=runtime --entitlements "${CMAKE_SOURCE_DIR}/Source/Core/DolphinQt/DolphinEmu.entitlements" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/Dolphin.app" || true)
   endif()
+  
+  # Copy GCAdapterDriver (system extension for GC controllers on macOS 11.0+) into the bundle.
+  # This must be done after code-signing.
+  add_custom_command(TARGET dolphin-emu
+      POST_BUILD COMMAND
+      mkdir -p "${BUNDLE_PATH}/Contents/Library/SystemExtensions" && cp -r "${CMAKE_SOURCE_DIR}/Externals/GCAdapterDriver/com.secretkeys.gcadapterdriverkitext.dext" "${BUNDLE_PATH}/Contents/Library/SystemExtensions")
 else()
   install(TARGETS dolphin-emu RUNTIME DESTINATION ${bindir})
 endif()

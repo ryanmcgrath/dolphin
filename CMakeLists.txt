@@ -338,6 +338,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
   find_library(IOB_LIBRARY IOBluetooth)
   find_library(IOK_LIBRARY IOKit)
   find_library(OPENGL_LIBRARY OpenGL)
+  find_library(SYSTEM_EXTENSIONS_LIBRARY SystemExtensions)
 endif()
 
 if(ENABLE_LTO)

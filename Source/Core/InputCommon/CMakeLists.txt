@@ -104,6 +104,8 @@ elseif(APPLE)
     ControllerInterface/OSX/OSXJoystick.h
     ControllerInterface/OSX/OSXJoystick.mm
     ControllerInterface/OSX/RunLoopStopper.h
+    ControllerInterface/OSX/SystemExtensionActivator.h
+    ControllerInterface/OSX/SystemExtensionActivator.mm
     ControllerInterface/Quartz/Quartz.h
     ControllerInterface/Quartz/Quartz.mm
     ControllerInterface/Quartz/QuartzKeyboardAndMouse.h
@@ -117,6 +119,7 @@ elseif(APPLE)
     ${COCOA_LIBRARY}
     ${FORCEFEEDBACK_LIBRARY}
     ${IOK_LIBRARY}
+    ${SYSTEM_EXTENSIONS_LIBRARY}
   )
 elseif(X11_FOUND)
   target_sources(inputcommon PRIVATE

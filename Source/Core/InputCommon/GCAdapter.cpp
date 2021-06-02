@@ -23,6 +23,10 @@
 #include "InputCommon/GCAdapter.h"
 #include "InputCommon/GCPadStatus.h"
 
+#ifdef __APPLE__
+#include "InputCommon/ControllerInterface/OSX/SystemExtensionActivator.h"
+#endif
+
 namespace GCAdapter
 {
 static bool CheckDeviceAccess(libusb_device* device);
@@ -201,6 +205,13 @@ void Init()
 {
   if (s_handle != nullptr)
     return;
+
+#ifdef __APPLE__
+    // This returns false if the extension is going to try and load; if it loads, then it will call
+    // `Init()` and return true on the subsequent invocation.
+    if (!requestOSXSystemExtensionActivation())
+        return;
+#endif
 
   if (Core::GetState() != Core::State::Uninitialized && Core::GetState() != Core::State::Starting)
   {
