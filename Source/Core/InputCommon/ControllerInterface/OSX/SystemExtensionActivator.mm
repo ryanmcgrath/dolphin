@@ -23,7 +23,7 @@
     return sharedActivator;
 }
 
-- (void)requestActivation API_AVAILABLE(macosx(11.0))
+- (void)requestActivation API_AVAILABLE(macosx(10.15))
 {
     OSSystemExtensionRequest *activationRequest = [OSSystemExtensionRequest 
         activationRequestForExtension:@"com.secretkeys.gcadapterdriverkitext"
@@ -35,36 +35,35 @@
     [OSSystemExtensionManager.sharedManager submitRequest:activationRequest];
 }
 
-- (void)requestNeedsUserApproval:(OSSystemExtensionRequest *)request API_AVAILABLE(macosx(11.0))
-{
-    NOTICE_LOG(SERIALINTERFACE, "macOS system extension requires user approval.");
+- (void)requestNeedsUserApproval:(OSSystemExtensionRequest *)request API_AVAILABLE(macosx(10.15))
+    {
+    NOTICE_LOG(CONTROLLERINTERFACE, "macOS system extension requires user approval.");
 }
 
 - (void)request:(OSSystemExtensionRequest *)request
-    didFailWithError:(NSError *)error API_AVAILABLE(macosx(11.0))
+    didFailWithError:(NSError *)error API_AVAILABLE(macosx(10.15))
 {
     const char *errorDesc = [error.localizedDescription UTF8String];
-    ERROR_LOG(SERIALINTERFACE, "Failed to activate macOS system extension with error %s", errorDesc);
+    ERROR_LOG(CONTROLLERINTERFACE, "Failed to activate macOS system extension with error %s", errorDesc);
 }
 
 - (void)request:(OSSystemExtensionRequest *)request 
-    didFinishWithResult:(OSSystemExtensionRequestResult)result API_AVAILABLE(macosx(11.0))
+    didFinishWithResult:(OSSystemExtensionRequestResult)result API_AVAILABLE(macosx(10.15))
 {
     if (result == OSSystemExtensionRequestCompleted) {
         self.extensionIsActivated = YES;
-        NOTICE_LOG(SERIALINTERFACE, "macOS System Extension activated, starting GCAdapter scanner");
+        NOTICE_LOG(CONTROLLERINTERFACE, "macOS System Extension activated, starting GCAdapter scanner");
         GCAdapter::Init();
-
     }
 
     if (result == OSSystemExtensionRequestWillCompleteAfterReboot) {
-        NOTICE_LOG(SERIALINTERFACE, "macOS System Extension requires reboot");
+        NOTICE_LOG(CONTROLLERINTERFACE, "macOS System Extension requires reboot");
     }
 }
 
 - (OSSystemExtensionReplacementAction)request:(OSSystemExtensionRequest *)request 
     actionForReplacingExtension:(OSSystemExtensionProperties *)existing 
-    withExtension:(nonnull OSSystemExtensionProperties *)ext API_AVAILABLE(macosx(11.0))
+    withExtension:(nonnull OSSystemExtensionProperties *)ext API_AVAILABLE(macosx(10.15))
 {
     //return OSSystemExtensionReplacementActionCancel;
     return OSSystemExtensionReplacementActionReplace;
@@ -74,22 +73,22 @@
 
 bool requestOSXSystemExtensionActivation() {
     // 10.15 has DriverKit, but it has some issues with regards to shipping a functioning dext.
-    if (@available(macOS 11.0, *))
+    if (@available(macOS 10.15, *))
     {
         DolphinMacSystemExtensionActivator *sharedActivator = [DolphinMacSystemExtensionActivator sharedActivator];
         
         if (!sharedActivator.extensionIsActivated)
         {
-            NOTICE_LOG(SERIALINTERFACE, "Requesting macOS GCAdapter System Extension Activation");
+            NOTICE_LOG(CONTROLLERINTERFACE, "Requesting macOS GCAdapter System Extension Activation");
             [sharedActivator requestActivation];
             return false;
         }
 
-        NOTICE_LOG(SERIALINTERFACE, "macOS GCAdapter System Extension Activated");
+        NOTICE_LOG(CONTROLLERINTERFACE, "macOS GCAdapter System Extension Activated");
         return true;
     }
 
-    // For anything prior to 11.0, just return true and let things proceed as normal.
-    // (Prior to 11.0, the old school kext approach should be used by the end user).
+    // For anything prior to 10.15, just return true and let things proceed as normal.
+    // (Prior to 10.15, the old school kext approach should be used by the end user).
     return true;
 }
