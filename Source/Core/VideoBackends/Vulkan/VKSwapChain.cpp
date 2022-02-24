@@ -254,7 +254,7 @@ bool SwapChain::CreateSwapChain()
     return false;
 
   // Select number of images in swap chain, we prefer one buffer in the background to work on
-  uint32_t image_count = surface_capabilities.minImageCount + 1;
+  uint32_t image_count = 2; //surface_capabilities.minImageCount + 1;
 
   // maxImageCount can be zero, in which case there isn't an upper limit on the number of buffers.
   if (surface_capabilities.maxImageCount > 0)
