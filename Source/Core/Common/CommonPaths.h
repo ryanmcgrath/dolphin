@@ -17,7 +17,7 @@
 // the copy in Application Support instead! (Copied on first run)
 // You can use the File::GetUserPath() util for this
 #define USERDATA_DIR "Contents/Resources/User"
-#define DOLPHIN_DATA_DIR "Library/Application Support/Dolphin"
+#define DOLPHIN_DATA_DIR "Library/Application Support/Brawlback Dolphin"
 #elif defined ANDROID
 #define USERDATA_DIR "user"
 #define DOLPHIN_DATA_DIR "/sdcard/dolphin-emu"
