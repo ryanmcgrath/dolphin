@@ -142,11 +142,11 @@ CEXISlippi::CEXISlippi(Core::System& system, const std::string current_file_name
 {
   INFO_LOG_FMT(SLIPPI, "EXI SLIPPI Constructor called.");
 
-  std::string userConfigFolder = File::GetUserPath(D_SLIPPI_IDX);
+  std::string user_config_folder = File::GetUserPath(D_SLIPPI_IDX);
 
   SlippiRustEXIConfig slprs_exi_config;
   slprs_exi_config.iso_path = current_file_name.c_str();
-  slprs_exi_config.user_config_folder = userConfigFolder.c_str();
+  slprs_exi_config.user_config_folder = user_config_folder.c_str();
   slprs_exi_config.scm_slippi_semver_str = Common::GetSemVerStr().c_str();
   slprs_exi_config.osd_add_msg_fn = OSDMessageHandler;
 
